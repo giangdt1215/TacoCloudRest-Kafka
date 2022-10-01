@@ -1,0 +1,1 @@
+# TacoCloud Rest - Using AMQP (RabbitMQ)
