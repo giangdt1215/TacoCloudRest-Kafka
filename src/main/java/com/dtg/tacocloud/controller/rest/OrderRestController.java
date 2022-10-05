@@ -1,6 +1,7 @@
 package com.dtg.tacocloud.controller.rest;
 
 import com.dtg.tacocloud.data.jpa.OrderJPARepository;
+import com.dtg.tacocloud.messaging.OrderMessagingService;
 import com.dtg.tacocloud.model.TacoOrder;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class OrderRestController {
 
 	private OrderJPARepository repo;
+	private OrderMessagingService orderMessagingService;
 
-	public OrderRestController(OrderJPARepository orderRepo){
+	public OrderRestController(OrderJPARepository orderRepo, OrderMessagingService orderMessagingService){
 		this.repo = orderRepo;
+		this.orderMessagingService = orderMessagingService;
 	}
 
 	@GetMapping
@@ -27,6 +30,7 @@ public class OrderRestController {
 	@PostMapping(consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public TacoOrder postOrder(@RequestBody TacoOrder order) {
+		orderMessagingService.sendOrder(order);
 		return repo.save(order);
 	}
 	
