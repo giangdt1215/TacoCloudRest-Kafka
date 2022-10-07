@@ -1,1 +1,1 @@
-# TacoCloud Rest - Using AMQP (RabbitMQ)
+# TacoCloud Rest - Using Apache Kafka
